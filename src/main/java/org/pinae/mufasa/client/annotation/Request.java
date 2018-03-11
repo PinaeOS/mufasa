@@ -14,5 +14,5 @@ import org.pinae.mufasa.client.Http;
 public @interface Request {
 	String method() default Http.HTTP_GET;
 	
-	String url();
+	String uri();
 }

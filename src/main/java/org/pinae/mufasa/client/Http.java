@@ -241,6 +241,10 @@ public final class Http {
 	public static final String APPLICATION_EDIFACT = "application/EDIFACT";
 
 	public static final String APPLICATION_JSON = "application/json";
+	
+	public static final String APPLICATION_X_WWW_FORM_URLENCODED = "application/x-www-form-urlencoded";
+	
+	public static final String MULTOPART_FORM_DATA = "multipart/form-data";
 
 	public static final String APPLICATION_JAVASCRIPT = "application/javascript";
 
