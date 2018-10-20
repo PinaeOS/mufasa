@@ -1,6 +1,10 @@
-package org.pinae.mufasa.client;
+package org.pinae.mufasa.client.http;
 
 public final class Http {
+	
+	public static final String HTTP_PROTOCOL_PREFIX = "http://";
+	
+	public static final String HTTPS_PROTOCOL_PREFIX = "https://";
 
 	/* HTTP Method */
 

@@ -1,4 +1,4 @@
-package org.pinae.mufasa.client;
+package org.pinae.mufasa.client.http;
 
 /**
  * 服务执行异常

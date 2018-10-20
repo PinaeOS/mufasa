@@ -6,7 +6,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.pinae.mufasa.client.Http;
+import org.pinae.mufasa.client.http.Http;
 
 @Documented
 @Target(ElementType.METHOD)
@@ -14,5 +14,5 @@ import org.pinae.mufasa.client.Http;
 public @interface Request {
 	String method() default Http.HTTP_GET;
 	
-	String uri();
+	String path();
 }
