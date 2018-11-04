@@ -10,6 +10,10 @@ public class HttpClientRequest {
 
 	private X509Certificate cert;
 	
+	private int connectTimeout;
+	
+	private int readTimeout;
+	
 	private String url;
 	
 	private String method;
@@ -50,6 +54,22 @@ public class HttpClientRequest {
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	public int getConnectTimeout() {
+		return connectTimeout;
+	}
+
+	public void setConnectTimeout(int connectTimeout) {
+		this.connectTimeout = connectTimeout;
+	}
+
+	public int getReadTimeout() {
+		return readTimeout;
+	}
+
+	public void setReadTimeout(int readTimeout) {
+		this.readTimeout = readTimeout;
 	}
 
 	public String getMethod() {

@@ -19,12 +19,15 @@ import org.pinae.mufasa.client.http.Http;
 import org.pinae.mufasa.client.http.HttpClientRequest;
 import org.pinae.mufasa.client.http.HttpClientResponse;
 import org.pinae.mufasa.client.http.HttpClientUtils;
+import org.pinae.mufasa.client.request.Timeout;
 
 public class HttpRequestHandler implements InvocationHandler {
 	
 	private String host;
 
 	private X509Certificate cert;
+	
+	private Timeout timeout;
 	
 	private Encoder encoder;
 	
@@ -45,6 +48,10 @@ public class HttpRequestHandler implements InvocationHandler {
 	public void setDecoder(Decoder decoder) {
 		this.decoder = decoder;
 	}
+	
+	public void setTimeout(Timeout timeout) {
+		this.timeout = timeout;
+	}
 
 	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 		
@@ -61,6 +68,11 @@ public class HttpRequestHandler implements InvocationHandler {
 		}
 
 		HttpClientRequest httpRequest = new HttpClientRequest(this.cert);
+		
+		if (this.timeout != null) {
+			httpRequest.setConnectTimeout(this.timeout.getConnectTimeout());
+			httpRequest.setReadTimeout(this.timeout.getReadTimeout());
+		}
 		
 		if (this.host.startsWith(Http.HTTPS_PROTOCOL_PREFIX)) {
 			httpRequest.setSsl(true);
@@ -106,7 +118,7 @@ public class HttpRequestHandler implements InvocationHandler {
 
 		}
 
-		HttpClientResponse httpResponse = HttpClientUtils.execute(httpRequest);
+		HttpClientResponse httpResponse = new HttpClientUtils().execute(httpRequest);
 
 		Object executeResult = this.encoder.encode(httpResponse, method.getReturnType());
 

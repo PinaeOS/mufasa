@@ -18,11 +18,13 @@ import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpOptions;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.methods.HttpTrace;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.utils.URIBuilder;
@@ -39,7 +41,7 @@ public class HttpClientUtils {
 	
 	private static Logger logger = Logger.getLogger(HttpClientUtils.class);
 	
-	public static HttpClientResponse execute(HttpClientRequest request)
+	public HttpClientResponse execute(HttpClientRequest request)
 					throws HttpClientException {
 		
 		HttpClient client = null;
@@ -127,6 +129,13 @@ public class HttpClientUtils {
 		} catch (URISyntaxException e) {
 			throw new HttpClientException(e);
 		}
+		
+		RequestConfig requestConfig = getRequestConfig(request.getConnectTimeout(), request.getReadTimeout());
+		if (requestConfig != null) {
+			if (httpRequest instanceof HttpRequestBase) {
+				((HttpRequestBase)httpRequest).setConfig(requestConfig);
+			}
+		}
 
 		try {
 			HttpClientResponse response = new HttpClientResponse();
@@ -161,8 +170,18 @@ public class HttpClientUtils {
 			throw new HttpClientException(e);
 		}
 	}
+	
+	private RequestConfig getRequestConfig(final int connectTimeout, final int requestTimeout) {
+		if (connectTimeout > 0 && requestTimeout > 0) {
+			RequestConfig requestConfig = RequestConfig.custom()
+					.setConnectTimeout(connectTimeout)
+					.setConnectionRequestTimeout(requestTimeout).build();
+			return requestConfig;
+		}
+		return null;
+	}
 
-	private static CloseableHttpClient createSSLClientDefault(final X509Certificate cert) {
+	private CloseableHttpClient createSSLClientDefault(final X509Certificate cert) {
 		try {
 			SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(null, new TrustStrategy() {
 				// 信任所有
