@@ -1,14 +1,25 @@
 package org.pinae.mufasa.client;
 
-import org.pinae.mufasa.client.annotation.Headers;
-import org.pinae.mufasa.client.annotation.Params;
-import org.pinae.mufasa.client.annotation.Request;
-import org.pinae.mufasa.client.http.Http;
-
-public interface User {
+public class User {
 	
-	@Request(path = "/demo/user", method = Http.HTTP_GET)
-	@Headers({"Request-Type: t101"})
-	public String getName(@Params("id") String id);
+	private int userId;
+	
+	private String userName;
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 	
 }

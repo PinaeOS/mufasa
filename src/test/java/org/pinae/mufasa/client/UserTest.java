@@ -1,13 +1,16 @@
 package org.pinae.mufasa.client;
 
 import org.junit.Test;
+import org.pinae.mufasa.client.codec.decoder.JsonDecoder;
+import org.pinae.mufasa.client.codec.encoder.JsonEncoder;
 
 public class UserTest {
 	
 	@Test
 	public void testGetName() {
-		User user = MufasaClient.execute(User.class, "http://127.0.0.1:8081");
-		String userName = user.getName("1");
-		System.out.println(userName);
+		UserService userService = MufasaClient.builder().encoder(new JsonEncoder()).decoder(new JsonDecoder()).host("http://127.0.0.1:8081").build(UserService.class);
+		User user = userService.getUserById("1");
+		
+		System.out.println(user.getUserName());
 	}
 }
