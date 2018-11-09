@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.Reader;
 
 import org.pinae.mufasa.client.http.HttpClientResponse;
+import org.pinae.mufasa.client.utils.GenericClassUtils;
 
 public abstract class AbstractEncoder implements Encoder {
 
@@ -12,8 +13,8 @@ public abstract class AbstractEncoder implements Encoder {
 		
 		Object returnObj = null;
 
-		if (returnCls.equals(String.class)) {
-			returnObj = response.getContentString();
+		if (GenericClassUtils.isGenericClass(returnCls)) {
+			returnObj = GenericClassUtils.toObject(returnCls, response.getContentString());
 		} else if (InputStream.class.isAssignableFrom(returnCls)) {
 			returnObj = response.getContentStream();
 		} else if (Reader.class.isAssignableFrom(returnCls)) {
